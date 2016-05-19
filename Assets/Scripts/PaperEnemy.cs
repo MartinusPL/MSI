@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class PaperEnemy : Enemy
-{
-    public int damagePaper = 20;
-    
+{    
     void OnTriggerStay2D(Collider2D co)
     {
         // Is it my tower? Then degrade!
@@ -33,8 +31,8 @@ public class PaperEnemy : Enemy
         GameObject g = Instantiate(wreckage, transform.position, Quaternion.identity) as GameObject;
         if (co.GetComponent<Range>().paperTower)
         {
-            health -= damagePaper;
-            g.GetComponent<Wreckage>().load = damagePaper;
+			health -= damageSpecialized;
+			g.GetComponent<Wreckage>().load = damageSpecialized;
         }
         if (co.GetComponent<Range>().universalTower)
         {

@@ -4,8 +4,6 @@ using System.Collections;
 
 public class GlassEnemy : Enemy
 {
-    public int damageGlass = 20;
-
     void OnTriggerStay2D(Collider2D co)
     {
         // Is it my tower? Then degrade!
@@ -33,8 +31,8 @@ public class GlassEnemy : Enemy
         GameObject g = Instantiate(wreckage, transform.position, Quaternion.identity) as GameObject;
         if (co.GetComponent<Range>().glassTower)
         {
-            health -= damageGlass;
-            g.GetComponent<Wreckage>().load = damageGlass;
+			health -= damageSpecialized;
+			g.GetComponent<Wreckage>().load = damageSpecialized;
         }
         if (co.GetComponent<Range>().universalTower)
         {

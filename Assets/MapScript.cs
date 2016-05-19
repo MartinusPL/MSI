@@ -36,10 +36,10 @@ public class MapScript : MonoBehaviour {
 
     void resetResources()
     {
-        glass = 100;
-        plastic = 100;
-        paper = 100;
-        metal = 100;
+        glass = 500;
+        plastic = 500;
+        paper = 500;
+        metal = 500;
     }
     
     //używane przez towerPlacement

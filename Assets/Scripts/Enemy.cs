@@ -8,10 +8,11 @@ public class Enemy : MonoBehaviour {
     public MapScript map;
 
     protected int nextPoint = 0;
-    public float speed = 0.1f;
-    public float health = 100;
+    public float speed = 0.02f;
+    public float health = 40;
     public float interval = 1;
     public int damageUniv = 10;
+	public int damageSpecialized = 20;
 
     protected bool permission;  //permission for shooting
     protected Collider2D co; // detected and saved collider

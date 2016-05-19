@@ -20,6 +20,7 @@ public class Range : MonoBehaviour {
     public int plasticWreckage;
     public int metalWreckage;
     public bool boxFull;  //ustawiane gdy kubeł jest pełen (niezdolny do przyjęcia następnych śmieci)
+	public int boxCapacity = 1000;
 
     private MapScript access;
     private CircleCollider2D triggerCollider;
@@ -41,7 +42,7 @@ public class Range : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if ( (paperWreckage + glassWreckage + plasticWreckage + metalWreckage >= 100) && !boxFull)
+		if ( (paperWreckage + glassWreckage + plasticWreckage + metalWreckage >= boxCapacity) && !boxFull)
         {
             boxFull = true;
             sprite.sprite = warning;
