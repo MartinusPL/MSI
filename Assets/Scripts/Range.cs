@@ -52,6 +52,7 @@ public class Range : MonoBehaviour {
 
     public void emptyTower()
     {
+        if (!boxFull) return;
         if (metalWreckage + glassWreckage + plasticWreckage + paperWreckage > 0) emptySound.PlayDelayed(0);
         access.addMetal(metalWreckage);
         access.addGlass(glassWreckage);
