@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public enum DifficultyLevel {
 	VeryEasy,
@@ -41,42 +43,45 @@ public class Spawn : MonoBehaviour
 		SetDifficultyLevel (DifficultyLevel.Normal);
     }
 
-	void Update() {
-		RemoveDeadMonsters ();
-	}
-
 	public void SetDifficultyLevel(DifficultyLevel level) {
 		switch (level) {
 		case DifficultyLevel.VeryEasy:
-			speed = 0.01f;
+			speed = 0.025f;
+            interval = 4;
 			break;
 		case DifficultyLevel.Easy:
 			speed = 0.05f;
+            interval = 2;
 			break;
 		case DifficultyLevel.Normal:
 			speed = 0.1f;
+            interval = 1;
 			break;
 		}
 		difficultyLevel = level;
 
 		foreach (GameObject go in monsters) {
-			go.GetComponent<Enemy>().speed = speed;
+		    go.GetComponent<Enemy>().speed = speed;
 		}
+
+	    if (spawning)
+	    {
+	        CancelInvoke("SpawnMonster");
+	        InvokeRepeating("SpawnMonster", 0, interval);
+	    }
 	}
 
-	private void RemoveDeadMonsters() {
+	public void RemoveDeadMonsters() {
+        if (monsters.Count == 0)
+            return;
 
+        // przepisanie listy potworow (zostaja tylko te zywe)
 		List<GameObject> newMonsters = new List<GameObject> ();
-
 		foreach (GameObject go in monsters) {
-			
-			go.GetComponent<Enemy>().speed = speed;
-	
-			if (go.activeInHierarchy) {
+			if (go != null) {
 				newMonsters.Add (go);
 			}
 		}
-
 		monsters = newMonsters;
 	}
 

@@ -21,9 +21,13 @@ public class MapScript : MonoBehaviour {
     public int paper;
     public int metal;
 
+    // duperele zwiazane z handicap'em
 	private List<DateTime> clicks = new List<DateTime>();
 	public bool handicapMode = false;
 	public DateTime lastDifficultyLevelChange = DateTime.Now;
+    TimeSpan clickMeasureWindow = TimeSpan.FromSeconds(1);
+    TimeSpan changeInterval = TimeSpan.FromSeconds(5);
+    const int clickTreshold = 5;
 
     //flaga autodestrukcji
     public bool killYourself;
@@ -38,22 +42,20 @@ public class MapScript : MonoBehaviour {
     {
 		CheckClicks();
 
-
         glassText.text =  glass.ToString();
         plasticText.text = plastic.ToString();
         paperText.text = paper.ToString();
         metalText.text = metal.ToString();
+
+        spawn.RemoveDeadMonsters();
     }
 
+    // sprawdzanie ile razy w ciagu sekundy uzytkownik kliknal
+    // jezeli wiecej niz clickTreshold, to zmniejszamy poziom trudnosci
 	void CheckClicks() {
+        DateTime now = DateTime.Now;
 
 		if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) {
-
-			TimeSpan clickMeasureWindow = TimeSpan.FromSeconds (1);
-			TimeSpan changeInterval = TimeSpan.FromSeconds (5);
-			const int clickTreshold = 5;
-
-			DateTime now = DateTime.Now;
 			List<DateTime> newClicks = new List<DateTime>();
 
 			clicks.Add(now);
@@ -65,16 +67,22 @@ public class MapScript : MonoBehaviour {
 			}
 			clicks = newClicks;
 
-			if ((clicks.Count > clickTreshold) && (now - lastDifficultyLevelChange > changeInterval)) {
-				if (spawn.difficultyLevel != DifficultyLevel.VeryEasy) {
-					spawn.SetDifficultyLevel (spawn.difficultyLevel - 1);
-				}
-			} else if (now - lastDifficultyLevelChange > changeInterval) {
-				if (spawn.difficultyLevel != DifficultyLevel.Normal) {
-					spawn.SetDifficultyLevel(spawn.difficultyLevel + 1);
-				}
-			}
+		    if ((clicks.Count > clickTreshold) && (now - lastDifficultyLevelChange > changeInterval))
+		    {
+		        if (spawn.difficultyLevel != DifficultyLevel.VeryEasy)
+		        {
+                    spawn.SetDifficultyLevel(DifficultyLevel.VeryEasy);
+                    lastDifficultyLevelChange = now;
+		        }
+		    }
 		}
+
+        if (now - lastDifficultyLevelChange > changeInterval) {
+		    if (spawn.difficultyLevel != DifficultyLevel.Normal) {
+			    spawn.SetDifficultyLevel(spawn.difficultyLevel + 1);
+		        lastDifficultyLevelChange = now;
+		    }
+	    }
 	}
 
     void resetResources()
@@ -154,6 +162,10 @@ public class MapScript : MonoBehaviour {
         killYourself = true;
         spawn.CancelInvoke();
         Invoke("cancelKilling", 0.3f);
+        glass = 500;
+        plastic = 500;
+        paper = 400;
+        metal = 700;
     }
 
     private void cancelKilling() { killYourself = false; }

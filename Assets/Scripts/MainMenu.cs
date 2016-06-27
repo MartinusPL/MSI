@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     public float interval = 1;
     public int waveSize = 15;
     public float speed = 0.1f;
-    public int waveLimit = 10;
+    public int waveLimit = 3;
     public int waveNr = 0;
     public Text waveText;
 
@@ -59,7 +59,7 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
         levelText.text = "Poziom: " + levelNr;
-        waveText.text = "Fala: " + waveNr + "/" + waveSize;
+        waveText.text = "Fala: " + waveNr + "/" + waveLimit;
     }
 
     //nasłuch rozkacu autodestrukcji i istnienia wrogów z ostatniej fali
@@ -83,9 +83,10 @@ public class MainMenu : MonoBehaviour
     public void nextWaveRequirement()
     {
         waveNr++;
+        int newWaveSize = waveSize + (waveNr - 1)*5;
         resetEnemies();
         setEnemies();
-        spawn.startSpawning(glassEnabled, paperEnabled, plasticEnabled, metalEnabled, waveSize, interval, speed);
+        spawn.startSpawning(glassEnabled, paperEnabled, plasticEnabled, metalEnabled, newWaveSize, interval, speed);
     }
 
     public bool nextLevel()
@@ -127,9 +128,12 @@ public class MainMenu : MonoBehaviour
     void setEnemies()
     {
         metalEnabled = true;
-        if(levelNr>=2) paperEnabled = true;
-        if(levelNr>=3) plasticEnabled = true;
-        if(levelNr>=4) glassEnabled = true;
+        paperEnabled = true;
+        if (levelNr > 2)
+        {
+            plasticEnabled = true;
+            glassEnabled = true;
+        }
     }
     
 }

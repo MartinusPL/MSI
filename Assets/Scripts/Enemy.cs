@@ -33,31 +33,26 @@ public class Enemy : MonoBehaviour {
             if (!road.UpperBlock && nextPoint == 7)
             {
                 nextPoint = 10;
-                goto endOfIf;
             }
 
             else if (road.LowerBlock && nextPoint == 3)
             {
                 nextPoint = 16;
-                goto endOfIf;
             }
 
             else if (nextPoint == 16)
             {
                 nextPoint = 17;
-                goto endOfIf;
             }
             else if (nextPoint == 17)
             {
                 nextPoint = 4;
-                goto endOfIf;
             }
 
             else if (nextPoint < (road.path.Length - 3))
                 nextPoint++;
         }
 
-        endOfIf:
         transform.position = Vector2.MoveTowards(transform.position, road.path[nextPoint].position, speed);
 
         if (health <= 0 || map.killYourself) Destroy(gameObject);
