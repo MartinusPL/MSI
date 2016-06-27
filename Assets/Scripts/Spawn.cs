@@ -1,5 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+public enum DifficultyLevel {
+	VeryEasy,
+	Easy,
+	Normal
+}
 
 public class Spawn : MonoBehaviour
 {
@@ -11,7 +18,7 @@ public class Spawn : MonoBehaviour
 
     public float interval = 1;
     public int waveSize = 15;
-    public float speed = 0.1f;
+	public float speed;
     public int waveNumber = 0;
 
     public bool glassEnabled = false;
@@ -22,13 +29,56 @@ public class Spawn : MonoBehaviour
     private bool[] elements = new bool[4];
     private int spawnedMonsters;
     public bool spawning = false;
+	public DifficultyLevel difficultyLevel;
+
+	public List<GameObject> monsters = new List<GameObject> ();
 
     // Use this for initialization
     void Start()
     {
         spawnedMonsters = 0;
         spawning = false;
+		SetDifficultyLevel (DifficultyLevel.Normal);
     }
+
+	void Update() {
+		RemoveDeadMonsters ();
+	}
+
+	public void SetDifficultyLevel(DifficultyLevel level) {
+		switch (level) {
+		case DifficultyLevel.VeryEasy:
+			speed = 0.01f;
+			break;
+		case DifficultyLevel.Easy:
+			speed = 0.05f;
+			break;
+		case DifficultyLevel.Normal:
+			speed = 0.1f;
+			break;
+		}
+		difficultyLevel = level;
+
+		foreach (GameObject go in monsters) {
+			go.GetComponent<Enemy>().speed = speed;
+		}
+	}
+
+	private void RemoveDeadMonsters() {
+
+		List<GameObject> newMonsters = new List<GameObject> ();
+
+		foreach (GameObject go in monsters) {
+			
+			go.GetComponent<Enemy>().speed = speed;
+	
+			if (go.activeInHierarchy) {
+				newMonsters.Add (go);
+			}
+		}
+
+		monsters = newMonsters;
+	}
 
     void rewrite()
     {
@@ -43,28 +93,29 @@ public class Spawn : MonoBehaviour
         int a;
         do{   a = (int)(Random.Range(0, 3.99999f));   } while (!elements[a]);
 
+		GameObject g;
+
         if (a == 0)
         {
-            GameObject g = Instantiate(glassTrash, transform.position, Quaternion.identity) as GameObject;
-            g.GetComponent<GlassEnemy>().speed = speed;
+            g = Instantiate(glassTrash, transform.position, Quaternion.identity) as GameObject;
         }
             
         else if (a == 1)
         {
-            GameObject g = Instantiate(paperTrash, transform.position, Quaternion.identity) as GameObject;
-            g.GetComponent<PaperEnemy>().speed = speed;
+            g = Instantiate(paperTrash, transform.position, Quaternion.identity) as GameObject;
         }
             
         else if (a == 2)
         {
-            GameObject g = Instantiate(plasticTrash, transform.position, Quaternion.identity) as GameObject;
-            g.GetComponent<PlasticEnemy>().speed = speed;
+            g = Instantiate(plasticTrash, transform.position, Quaternion.identity) as GameObject;
         }
-        else if (a == 3)
+        else 
         {
-            GameObject g = Instantiate(metalTrash, transform.position, Quaternion.identity) as GameObject;
-            g.GetComponent<MetalEnemy>().speed = speed;
+            g = Instantiate(metalTrash, transform.position, Quaternion.identity) as GameObject;
         }
+
+		g.GetComponent<Enemy>().speed = speed;
+		monsters.Add (g);
 
         spawnedMonsters++;
         if (spawnedMonsters >= waveSize) resetAfterWave();
