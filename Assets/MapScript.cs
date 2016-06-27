@@ -21,13 +21,13 @@ public class MapScript : MonoBehaviour {
     public int paper;
     public int metal;
 
-    // duperele zwiazane z handicap'em
+    // ustawienia zwiazane z handicap'em
 	private List<DateTime> clicks = new List<DateTime>();
 	public bool handicapMode = false;
 	public DateTime lastDifficultyLevelChange = DateTime.Now;
     TimeSpan clickMeasureWindow = TimeSpan.FromSeconds(1);
     TimeSpan changeInterval = TimeSpan.FromSeconds(5);
-    const int clickTreshold = 5;
+    const int clickTreshold = 3;
 
     //flaga autodestrukcji
     public bool killYourself;
