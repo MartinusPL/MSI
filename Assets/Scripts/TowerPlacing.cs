@@ -41,7 +41,7 @@ public class TowerPlacing : MonoBehaviour
         metalSet = false;
         univSet = false;
         sth = false;
-}
+    }
 
     void FixedUpdate() {
         if (paperSet || glassSet || plasticSet || metalSet || univSet) sth = true;
@@ -152,5 +152,7 @@ public class TowerPlacing : MonoBehaviour
         paperSet = false;
         sth = false;
         spriteRenderer.sprite = selectedPlace;
+        selected = false;
+        range.uncall();
     }
 }

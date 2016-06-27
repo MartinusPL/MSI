@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour {
     protected int nextPoint = 0;
     public float speed = 0.02f;
     public float health = 40;
-    public float interval = 1;
+    public float interval = 0.1f;
     public int damageUniv = 10;
 	public int damageSpecialized = 20;
 

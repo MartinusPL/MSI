@@ -70,4 +70,10 @@ public class Range : MonoBehaviour {
         metalWreckage = 0;
         boxFull = false;
     }
+
+    public void uncall()
+    {
+        zeroAll();
+        glassTower = plasticTower = paperTower = metalTower = universalTower = false;
+    }
 }
