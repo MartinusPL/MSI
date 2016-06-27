@@ -125,15 +125,13 @@ public class MainMenu : MonoBehaviour
         metalEnabled = false;
     }
 
+    // ustawia rodzaje przeciwnikow odpowiednio do poziomu
     void setEnemies()
     {
         metalEnabled = true;
-        paperEnabled = true;
-        if (levelNr > 2)
-        {
-            plasticEnabled = true;
-            glassEnabled = true;
-        }
+        if (levelNr >= 2) paperEnabled = true;
+        if (levelNr >= 3) plasticEnabled = true;
+        if (levelNr >= 4) glassEnabled = true;
     }
     
 }

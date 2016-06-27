@@ -15,11 +15,17 @@ public class muteScript : MonoBehaviour {
         mutedGame = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = unmuted;
+        RefreshState();
     }
 
     void OnMouseUp()
     {
         mutedGame = !mutedGame;
+        RefreshState();
+    }
+
+    private void RefreshState()
+    {
         if (mutedGame)
         {
             spriteRenderer.sprite = muted;

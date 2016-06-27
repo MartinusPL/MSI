@@ -13,14 +13,20 @@ public class musicScript : MonoBehaviour {
 
     void Start()
     {
-        playing = true;
+        playing = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = play;
+        RefreshState();
     }
 
     void OnMouseUp()
     {
         playing = !playing;
+        RefreshState();
+    }
+
+    private void RefreshState()
+    {
         if (playing)
         {
             spriteRenderer.sprite = play;
