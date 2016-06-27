@@ -52,12 +52,13 @@ public class Range : MonoBehaviour {
 
     public void emptyTower()
     {
+        const double recyclingFactor = 0.25;
         if (!boxFull) return;
         if (metalWreckage + glassWreckage + plasticWreckage + paperWreckage > 0) emptySound.PlayDelayed(0);
-        access.addMetal(metalWreckage);
-        access.addGlass(glassWreckage);
-        access.addPlastic(plasticWreckage);
-        access.addPaper(paperWreckage);
+        access.addMetal((int)System.Math.Round((metalWreckage * recyclingFactor)));
+        access.addGlass((int)System.Math.Round((glassWreckage * recyclingFactor)));
+        access.addPlastic((int)System.Math.Round((plasticWreckage * recyclingFactor)));
+        access.addPaper((int)System.Math.Round((paperWreckage * recyclingFactor)));
         zeroAll();
         sprite.sprite = null;
         triggerCollider.radius = radius;

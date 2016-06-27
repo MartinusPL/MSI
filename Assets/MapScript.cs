@@ -101,27 +101,27 @@ public class MapScript : MonoBehaviour {
 
     //funkcje sprawdzające czy gracz dysponuje wystarcającymi zasobami
     public bool affordGlass() {
-        if (glass >= 80 && metal >= 50)
+        if (glass >= 80 && metal >= 20)
         {
-            glass -= 80; metal -= 50;
+            glass -= 80; metal -= 20;
             return true;
         }
         else return false;
     }
 
     public bool affordPlastic() {
-        if (plastic >= 80 && metal >= 50) 
+        if (plastic >= 80 && metal >= 20) 
         {
-            plastic -= 80; metal -= 50;
+            plastic -= 80; metal -= 20;
             return true;
         }
         else return false;
     }
 
     public bool affordPaper() {
-        if (paper >= 80 && metal >= 50)
+        if (paper >= 80 && metal >= 20)
         {
-            paper -= 80; metal -= 50;
+            paper -= 80; metal -= 20;
             return true;
         }
         else return false;
