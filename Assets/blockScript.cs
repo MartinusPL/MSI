@@ -7,6 +7,7 @@ public class blockScript : MonoBehaviour {
     public Sprite gate;
     private SpriteRenderer sr;
     public AudioSource setingGateSound;
+    public Road road;
 
     void Start()
     {
@@ -24,6 +25,8 @@ public class blockScript : MonoBehaviour {
     public void resetGate()
     {
         sr.sprite = null;
+        road.LowerBlock = false;
+        road.UpperBlock = false;
     }
 
     void FixedUpdate()

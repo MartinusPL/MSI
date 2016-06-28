@@ -61,7 +61,8 @@ public class Spawn : MonoBehaviour
 		difficultyLevel = level;
 
 		foreach (GameObject go in monsters) {
-		    go.GetComponent<Enemy>().speed = speed;
+            if (go != null)
+		        go.GetComponent<Enemy>().speed = speed;
 		}
 
 	    if (spawning)

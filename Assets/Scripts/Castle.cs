@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -9,6 +11,11 @@ public class Castle : MonoBehaviour {
     public float health = 100;
 
     private AudioSource audio;
+
+    // ustawienia zwiazane z handicap'em
+    private List<DateTime> hits = new List<DateTime>();
+    readonly TimeSpan hitMeasureWindow = TimeSpan.FromSeconds(5);
+    const int hitTreshold = 4;
 
     void Awake()
     {
@@ -30,5 +37,25 @@ public class Castle : MonoBehaviour {
     {
         health -= hurt;
         audio.PlayDelayed(0);
+        DateTime now = DateTime.Now;
+        hits.Add(now);
+
+        List<DateTime> newHits = new List<DateTime>();
+        foreach (DateTime h in hits)
+        {
+            if (now - h <= hitMeasureWindow)
+            {
+                newHits.Add(h);
+            }
+        }
+        hits = newHits;
+
+        if (hits.Count >= hitTreshold)
+        {
+            map.spawn.SetDifficultyLevel(DifficultyLevel.VeryEasy);
+            map.lastDifficultyLevelChange = now;
+        }
     }
+
+
 }

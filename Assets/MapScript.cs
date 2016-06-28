@@ -14,6 +14,7 @@ public class MapScript : MonoBehaviour {
     public Text paperText;
     public Text metalText;
     public Spawn spawn;
+    public Road road;
 
     //wartości surowców
     public int glass;
@@ -25,8 +26,8 @@ public class MapScript : MonoBehaviour {
 	private List<DateTime> clicks = new List<DateTime>();
 	public bool handicapMode = false;
 	public DateTime lastDifficultyLevelChange = DateTime.Now;
-    TimeSpan clickMeasureWindow = TimeSpan.FromSeconds(1);
-    TimeSpan changeInterval = TimeSpan.FromSeconds(5);
+    public TimeSpan clickMeasureWindow = TimeSpan.FromSeconds(1);
+    public TimeSpan changeInterval = TimeSpan.FromSeconds(5);
     const int clickTreshold = 3;
 
     //flaga autodestrukcji
