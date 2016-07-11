@@ -15,6 +15,13 @@ public class MapScript : MonoBehaviour {
     public Text metalText;
     public Spawn spawn;
     public Road road;
+	public PanelScript panel;
+
+	// labele pokazujące przybywanie surowców
+	public Text glassPlus;
+	public Text plasticPlus;
+	public Text paperPlus;
+	public Text metalPlus;
 
     //wartości surowców
     public int glass;
@@ -37,13 +44,14 @@ public class MapScript : MonoBehaviour {
     {
         resetResources();
         killYourself = false;
+		hidePluses();
     }
 
     void Update()
     {
 		CheckClicks();
 
-        glassText.text =  glass.ToString();
+        glassText.text = glass.ToString();
         plasticText.text = plastic.ToString();
         paperText.text = paper.ToString();
         metalText.text = metal.ToString();
@@ -93,18 +101,57 @@ public class MapScript : MonoBehaviour {
         paper = 500;
         metal = 500;
     }
+
+	public void hidePluses() {
+
+		Text[] texts = { glassPlus, plasticPlus, paperPlus, metalPlus };
+		foreach (Text text in texts) {
+			text.text = "";
+		}
+	}
     
     //używane przez towerPlacement
-    public void addGlass(int add) { glass += add; }
-    public void addPlastic(int add) { plastic += add; }
-    public void addPaper(int add) { paper += add; }
-    public void addMetal(int add) { metal += add; }
+    public void addGlass(int add) { 
+		glass += add;
+		if (add > 0) {
+			glassPlus.text = "+" + add.ToString ();
+			Invoke ("hidePluses", 1.0f);
+		}
+	}
+
+    public void addPlastic(int add) { 
+		plastic += add; 
+		if (add > 0) {
+			plasticPlus.text = "+" + add.ToString ();
+			Invoke ("hidePluses", 1.0f);
+		}
+	}
+
+    public void addPaper(int add) { 
+		paper += add; 
+		if (add > 0) {
+			paperPlus.text = "+" + add.ToString ();
+			Invoke ("hidePluses", 1.0f);
+		}
+	}
+
+    public void addMetal(int add) {
+		metal += add; 
+		if (add > 0) {
+			metalPlus.text = "+" + add.ToString ();
+			Invoke ("hidePluses", 1.0f);
+		}
+	}
 
     //funkcje sprawdzające czy gracz dysponuje wystarcającymi zasobami
     public bool affordGlass() {
         if (glass >= 80 && metal >= 20)
         {
             glass -= 80; metal -= 20;
+
+			glassPlus.text = "-80";
+			metalPlus.text = "-20";
+			Invoke ("hidePluses", 1.0f);
             return true;
         }
         else return false;
@@ -114,6 +161,10 @@ public class MapScript : MonoBehaviour {
         if (plastic >= 80 && metal >= 20) 
         {
             plastic -= 80; metal -= 20;
+
+			plasticPlus.text = "-80";
+			metalPlus.text = "-20";
+			Invoke ("hidePluses", 1.0f);
             return true;
         }
         else return false;
@@ -123,6 +174,10 @@ public class MapScript : MonoBehaviour {
         if (paper >= 80 && metal >= 20)
         {
             paper -= 80; metal -= 20;
+
+			paperPlus.text = "-80";
+			metalPlus.text = "-20";
+			Invoke ("hidePluses", 1.0f);
             return true;
         }
         else return false;
@@ -132,6 +187,9 @@ public class MapScript : MonoBehaviour {
         if (metal >= 100)
         {
             metal -= 100;
+
+			metalPlus.text = "-100";
+			Invoke ("hidePluses", 1.0f);		
             return true;
         }
         else return false;
@@ -142,6 +200,12 @@ public class MapScript : MonoBehaviour {
         if (glass >= 50 && plastic >= 50 && paper >= 50 && metal >= 50)
         {
             glass -= 50; plastic -= 50; paper -= 50; metal -= 50;
+
+			glassPlus.text = "-50";
+			plasticPlus.text = "-50";
+			paperPlus.text = "-50";
+			metalPlus.text = "-50";
+			Invoke ("hidePluses", 1.0f);
             return true;
         }
         else return false;
@@ -152,6 +216,12 @@ public class MapScript : MonoBehaviour {
         if (glass >= 100 && plastic >= 100 && paper >= 100 && metal >= 100)
         {
             glass -= 100; plastic -= 100; paper -= 100; metal -= 100;
+
+			glassPlus.text = "-100";
+			plasticPlus.text = "-100";
+			paperPlus.text = "-100";
+			metalPlus.text = "-100";
+			Invoke ("hidePluses", 1.0f);
             return true;
         }
         else return false;
